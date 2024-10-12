@@ -84,8 +84,17 @@ function setupQuestion() {
   currentPoint = newPoint;
   previousPoint = newPoint;
 
+
   const questionTypes = ['radian', 'degree', 'coord'];
-  questionType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+  
+  let newQuestionType;
+  do {
+    newQuestionType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+  } while (newQuestionType === previousQuestionType);
+
+  QuestionType = newQuestionType;
+  previousQuestionType = newQuestionType;
+
   document.getElementById('questionText').textContent = `Find the ${questionType} for this point:`;
 
   const optionsContainer = document.getElementById('options');
