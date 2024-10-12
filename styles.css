@@ -74,7 +74,7 @@ table {
 th, td {
   border: 1px solid #ddd;
   padding: 6px;
-  text-align: left;
+  text-align: center;
 }
 
 th {
@@ -95,6 +95,6 @@ td.score {
 }
 
 td.answer {
-  width: 60%; /* Wider column for correct answers */
+  width: 70%; /* Wider column for correct answers */
   font-size: 12px; /* Reduced font size for fitting long answers */
 }
