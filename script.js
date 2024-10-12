@@ -5,6 +5,7 @@ const centerX = canvas.width / 2;
 const centerY = canvas.height / 2;
 let score = 0;
 let previousPoint = null;
+let previousQuestionType = null;
 
 const points = [
   { radian: '0 or 2π', degree: '0° or 360°', coord: '(1, 0)', x: 1, y: 0 },
@@ -158,4 +159,3 @@ function checkAnswer(selectedOption) {
 }
 
 setupQuestion();
-
