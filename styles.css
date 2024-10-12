@@ -95,5 +95,6 @@ td.score {
 }
 
 td.answer {
-  width: 50%;
+  width: 60%; /* Wider column for correct answers */
+  font-size: 12px; /* Reduced font size for fitting long answers */
 }
