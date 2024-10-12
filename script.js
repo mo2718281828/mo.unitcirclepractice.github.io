@@ -12,18 +12,8 @@ const points = [
   { radian: 'π/4', degree: '45°', coord: '(√2/2, √2/2)', x: Math.sqrt(2) / 2, y: Math.sqrt(2) / 2 },
   { radian: 'π/3', degree: '60°', coord: '(1/2, √3/2)', x: 1 / 2, y: Math.sqrt(3) / 2 },
   { radian: 'π/2', degree: '90°', coord: '(0, 1)', x: 0, y: 1 },
-  { radian: '2π/3', degree: '120°', coord: '(-1/2, √3/2)', x: -1 / 2, y: Math.sqrt(3) / 2 },
-  { radian: '3π/4', degree: '135°', coord: '(-√2/2, √2/2)', x: -Math.sqrt(2) / 2, y: Math.sqrt(2) / 2 },
-  { radian: '5π/6', degree: '150°', coord: '(-√3/2, 1/2)', x: -Math.sqrt(3) / 2, y: 1 / 2 },
-  { radian: 'π', degree: '180°', coord: '(-1, 0)', x: -1, y: 0 },
-  { radian: '7π/6', degree: '210°', coord: '(-√3/2, -1/2)', x: -Math.sqrt(3) / 2, y: -1 / 2 },
-  { radian: '5π/4', degree: '225°', coord: '(-√2/2, -√2/2)', x: -Math.sqrt(2) / 2, y: -Math.sqrt(2) / 2 },
-  { radian: '4π/3', degree: '240°', coord: '(-1/2, -√3/2)', x: -1 / 2, y: -Math.sqrt(3) / 2 },
-  { radian: '3π/2', degree: '270°', coord: '(0, -1)', x: 0, y: -1 },
-  { radian: '5π/3', degree: '300°', coord: '(1/2, -√3/2)', x: 1 / 2, y: -Math.sqrt(3) / 2 },
-  { radian: '7π/4', degree: '315°', coord: '(√2/2, -√2/2)', x: Math.sqrt(2) / 2, y: -Math.sqrt(2) / 2 },
-  { radian: '11π/6', degree: '330°', coord: '(√3/2, -1/2)', x: Math.sqrt(3) / 2, y: -1 / 2 },
-  { radian: '2π', degree: '360°', coord: '(1, 0)', x: 1, y: 0 },
+  { radian: '2π', degree: '360°', coord: '(1, 0)', x: 1, y: 0 },  // 360 degrees = 2π radians
+  // Add more points as needed
 ];
 
 let currentPoint, questionType;
@@ -103,6 +93,13 @@ function setupQuestion() {
 function generateOptions(type) {
   const correctAnswer = currentPoint[type];
   let allOptions = points.map(p => p[type]);
+
+  if (type === 'degree') {
+    allOptions = allOptions.filter(opt => !(opt === '360°' && allOptions.includes('0°')));
+  } else if (type === 'radian') {
+    allOptions = allOptions.filter(opt => !(opt === '2π' && allOptions.includes('0')));
+  }
+
   allOptions = allOptions.sort(() => Math.random() - 0.5).slice(0, 7); // Always give 8 options
   if (!allOptions.includes(correctAnswer)) allOptions.push(correctAnswer);
   return allOptions.sort(() => Math.random() - 0.5);
@@ -117,7 +114,8 @@ function checkAnswer(selectedOption) {
   const scoreCell = document.createElement('td');
 
   answerCell.textContent = correctAnswer;
-  answerCell.style.width = "50%"; // Wider column for "Correct Answer"
+  answerCell.style.width = "60%"; // Wider column for "Correct Answer"
+  answerCell.style.fontSize = "12px"; // Smaller font size
 
   if (selectedOption === correctAnswer) {
     score += 20;
@@ -131,6 +129,7 @@ function checkAnswer(selectedOption) {
 
   scoreCell.textContent = score;
   scoreCell.className = 'score';
+  scoreCell.style
   scoreCell.style.textAlign = "center";
 
   row.appendChild(answerCell);
@@ -139,12 +138,11 @@ function checkAnswer(selectedOption) {
   scoreSheet.appendChild(row);
 
   if (scoreSheet.rows.length > 10) {
-    for (let i = 0; i < 5; i++) {
-      scoreSheet.deleteRow(0);
-    }
+    scoreSheet.deleteRow(1); // Keep the header, delete the top data row
   }
 
   setTimeout(setupQuestion, 2000);
 }
 
 setupQuestion();
+
