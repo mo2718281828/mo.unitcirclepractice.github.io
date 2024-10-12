@@ -7,7 +7,7 @@ let score = 0;
 let previousPoint = null;
 
 const points = [
-  { radian: '0', degree: '0°', coord: '(1, 0)', x: 1, y: 0 },
+  { radian: '0 or 2π', degree: '0° or 360°', coord: '(1, 0)', x: 1, y: 0 },
   { radian: 'π/6', degree: '30°', coord: '(√3/2, 1/2)', x: Math.sqrt(3) / 2, y: 1 / 2 },
   { radian: 'π/4', degree: '45°', coord: '(√2/2, √2/2)', x: Math.sqrt(2) / 2, y: Math.sqrt(2) / 2 },
   { radian: 'π/3', degree: '60°', coord: '(1/2, √3/2)', x: 1 / 2, y: Math.sqrt(3) / 2 },
@@ -23,7 +23,6 @@ const points = [
   { radian: '5π/3', degree: '300°', coord: '(1/2, -√3/2)', x: 1 / 2, y: -Math.sqrt(3) / 2 },
   { radian: '7π/4', degree: '315°', coord: '(√2/2, -√2/2)', x: Math.sqrt(2) / 2, y: -Math.sqrt(2) / 2 },
   { radian: '11π/6', degree: '330°', coord: '(√3/2, -1/2)', x: Math.sqrt(3) / 2, y: -1 / 2 },
-  { radian: '2π', degree: '360°', coord: '(1, 0)', x: 1, y: 0 }
 ];
 
 
@@ -105,12 +104,6 @@ function setupQuestion() {
 function generateOptions(type) {
   const correctAnswer = currentPoint[type];
   let allOptions = points.map(p => p[type]);
-
-  if (type === 'degree') {
-    allOptions = allOptions.filter(opt => !(opt === '360°' && allOptions.includes('0°')));
-  } else if (type === 'radian') {
-    allOptions = allOptions.filter(opt => !(opt === '2π' && allOptions.includes('0')));
-  }
 
   allOptions = allOptions.sort(() => Math.random() - 0.5).slice(0, 7); // Always give 8 options
   if (!allOptions.includes(correctAnswer)) allOptions.push(correctAnswer);
