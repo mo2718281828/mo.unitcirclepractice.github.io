@@ -1,6 +1,6 @@
 const canvas = document.getElementById('unitCircle');
 const ctx = canvas.getContext('2d');
-const radius = canvas.width / 2 - 20;
+const radius = canvas.width / 2 - 10; // Smaller circle radius
 const centerX = canvas.width / 2;
 const centerY = canvas.height / 2;
 let score = 0;
@@ -103,7 +103,7 @@ function setupQuestion() {
 function generateOptions(type) {
   const correctAnswer = currentPoint[type];
   let allOptions = points.map(p => p[type]);
-  allOptions = allOptions.sort(() => Math.random() - 0.5).slice(0, 5);
+  allOptions = allOptions.sort(() => Math.random() - 0.5).slice(0, 7); // Always give 8 options
   if (!allOptions.includes(correctAnswer)) allOptions.push(correctAnswer);
   return allOptions.sort(() => Math.random() - 0.5);
 }
@@ -137,6 +137,12 @@ function checkAnswer(selectedOption) {
   row.appendChild(changeCell);
   row.appendChild(scoreCell);
   scoreSheet.appendChild(row);
+
+  if (scoreSheet.rows.length > 10) {
+    for (let i = 0; i < 5; i++) {
+      scoreSheet.deleteRow(0);
+    }
+  }
 
   setTimeout(setupQuestion, 2000);
 }
