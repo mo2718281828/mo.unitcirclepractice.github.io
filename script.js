@@ -119,8 +119,8 @@ function checkAnswer(selectedOption) {
   const scoreCell = document.createElement('td');
 
   answerCell.textContent = correctAnswer;
-  answerCell.style.width = "60%"; // Wider column for "Correct Answer"
-  answerCell.style.fontSize = "12px"; // Smaller font size
+  answerCell.style.width = "80%"; // Wider column for "Correct Answer"
+  answerCell.style.fontSize = "10px"; // Smaller font size
 
   if (selectedOption === correctAnswer) {
     score += 20;
