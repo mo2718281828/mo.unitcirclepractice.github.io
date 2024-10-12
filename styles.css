@@ -21,12 +21,12 @@ body {
 }
 
 .left-column {
-  width: 100px;
+  width: 150px;
   padding-right: 5px;
 }
 
 .center-column {
-  width: 400px;
+  width: 350px;
   padding: 0 10px;
   text-align: center;
 }
@@ -54,7 +54,7 @@ canvas {
 }
 
 .options-container button {
-  padding: 10px;
+  padding: 15px;
   background-color: #3C9F40;
   color: white;
   border: none;
@@ -63,17 +63,17 @@ canvas {
 }
 
 .options-container button:hover {
-  background-color: #45a049;
+  background-color: #45ca49;
 }
 
 table {
-  width: 120%;
+  width: 110%;
   border-collapse: collapse;
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 6px;
   text-align: left;
 }
 
