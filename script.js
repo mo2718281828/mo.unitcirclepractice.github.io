@@ -143,7 +143,7 @@ function checkAnswer(selectedOption) {
   scoreSheet.appendChild(row);
 
   if (scoreSheet.rows.length > 10) {
-    scoreSheet.deleteRow(1); // Keep the header, delete the top data row
+    scoreSheet.deleteRow(0); // Keep the header, delete the top data row
   }
 
   setTimeout(setupQuestion, 2000);
