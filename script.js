@@ -17,7 +17,6 @@ const points = [
   { degree: '330^\\circ', radian: '\\frac{11\\pi}{6}', coord: '(\\frac{\\sqrt{3}}{2}, -\\frac{1}{2})', x: Math.sqrt(3) / 2, y: -1 / 2 }
 ];
 
-
 let score = 0;
 let previousPoint = null;
 let answered = false;
