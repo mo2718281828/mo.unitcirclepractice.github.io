@@ -1,161 +1,184 @@
-const canvas = document.getElementById('unitCircle');
-const ctx = canvas.getContext('2d');
-const radius = canvas.width / 2 - 10; // Smaller circle radius
-const centerX = canvas.width / 2;
-const centerY = canvas.height / 2;
-let score = 0;
-let previousPoint = null;
-let previousQuestionType = null;
-
 const points = [
-  { radian: '0 or 2π', degree: '0° or 360°', coord: '(1, 0)', x: 1, y: 0 },
-  { radian: 'π/6', degree: '30°', coord: '(√3/2, 1/2)', x: Math.sqrt(3) / 2, y: 1 / 2 },
-  { radian: 'π/4', degree: '45°', coord: '(√2/2, √2/2)', x: Math.sqrt(2) / 2, y: Math.sqrt(2) / 2 },
-  { radian: 'π/3', degree: '60°', coord: '(1/2, √3/2)', x: 1 / 2, y: Math.sqrt(3) / 2 },
-  { radian: 'π/2', degree: '90°', coord: '(0, 1)', x: 0, y: 1 },
-  { radian: '2π/3', degree: '120°', coord: '(-1/2, √3/2)', x: -1 / 2, y: Math.sqrt(3) / 2 },
-  { radian: '3π/4', degree: '135°', coord: '(-√2/2, √2/2)', x: -Math.sqrt(2) / 2, y: Math.sqrt(2) / 2 },
-  { radian: '5π/6', degree: '150°', coord: '(-√3/2, 1/2)', x: -Math.sqrt(3) / 2, y: 1 / 2 },
-  { radian: 'π', degree: '180°', coord: '(-1, 0)', x: -1, y: 0 },
-  { radian: '7π/6', degree: '210°', coord: '(-√3/2, -1/2)', x: -Math.sqrt(3) / 2, y: -1 / 2 },
-  { radian: '5π/4', degree: '225°', coord: '(-√2/2, -√2/2)', x: -Math.sqrt(2) / 2, y: -Math.sqrt(2) / 2 },
-  { radian: '4π/3', degree: '240°', coord: '(-1/2, -√3/2)', x: -1 / 2, y: -Math.sqrt(3) / 2 },
-  { radian: '3π/2', degree: '270°', coord: '(0, -1)', x: 0, y: -1 },
-  { radian: '5π/3', degree: '300°', coord: '(1/2, -√3/2)', x: 1 / 2, y: -Math.sqrt(3) / 2 },
-  { radian: '7π/4', degree: '315°', coord: '(√2/2, -√2/2)', x: Math.sqrt(2) / 2, y: -Math.sqrt(2) / 2 },
-  { radian: '11π/6', degree: '330°', coord: '(√3/2, -1/2)', x: Math.sqrt(3) / 2, y: -1 / 2 },
+  { degree: '0^\\circ \\text{ or } 360^\\circ', radian: '0 \\text{ or } 2\\pi', coord: '(1, 0)', x: 1, y: 0 },
+  { degree: '30^\\circ', radian: '\\frac{\\pi}{6}', coord: '(\\frac{\\sqrt{3}}{2}, \\frac{1}{2})', x: Math.sqrt(3) / 2, y: 1 / 2 },
+  { degree: '45^\\circ', radian: '\\frac{\\pi}{4}', coord: '(\\frac{\\sqrt{2}}{2}, \\frac{\\sqrt{2}}{2})', x: Math.sqrt(2) / 2, y: Math.sqrt(2) / 2 },
+  { degree: '60^\\circ', radian: '\\frac{\\pi}{3}', coord: '(\\frac{1}{2}, \\frac{\\sqrt{3}}{2})', x: 1 / 2, y: Math.sqrt(3) / 2 },
+  { degree: '90^\\circ', radian: '\\frac{\\pi}{2}', coord: '(0, 1)', x: 0, y: 1 },
+  { degree: '120^\\circ', radian: '\\frac{2\\pi}{3}', coord: '(-\\frac{1}{2}, \\frac{\\sqrt{3}}{2})', x: -1 / 2, y: Math.sqrt(3) / 2 },
+  { degree: '135^\\circ', radian: '\\frac{3\\pi}{4}', coord: '(-\\frac{\\sqrt{2}}{2}, \\frac{\\sqrt{2}}{2})', x: -Math.sqrt(2) / 2, y: Math.sqrt(2) / 2 },
+  { degree: '150^\\circ', radian: '\\frac{5\\pi}{6}', coord: '(-\\frac{\\sqrt{3}}{2}, \\frac{1}{2})', x: -Math.sqrt(3) / 2, y: 1 / 2 },
+  { degree: '180^\\circ', radian: '\\pi', coord: '(-1, 0)', x: -1, y: 0 },
+  { degree: '210^\\circ', radian: '\\frac{7\\pi}{6}', coord: '(-\\frac{\\sqrt{3}}{2}, -\\frac{1}{2})', x: -Math.sqrt(3) / 2, y: -1 / 2 },
+  { degree: '225^\\circ', radian: '\\frac{5\\pi}{4}', coord: '(-\\frac{\\sqrt{2}}{2}, -\\frac{\\sqrt{2}}{2})', x: -Math.sqrt(2) / 2, y: -Math.sqrt(2) / 2 },
+  { degree: '240^\\circ', radian: '\\frac{4\\pi}{3}', coord: '(-\\frac{1}{2}, -\\frac{\\sqrt{3}}{2})', x: -1 / 2, y: -Math.sqrt(3) / 2 },
+  { degree: '270^\\circ', radian: '\\frac{3\\pi}{2}', coord: '(0, -1)', x: 0, y: -1 },
+  { degree: '300^\\circ', radian: '\\frac{5\\pi}{3}', coord: '(\\frac{1}{2}, -\\frac{\\sqrt{3}}{2})', x: 1 / 2, y: -Math.sqrt(3) / 2 },
+  { degree: '315^\\circ', radian: '\\frac{7\\pi}{4}', coord: '(\\frac{\\sqrt{2}}{2}, -\\frac{\\sqrt{2}}{2})', x: Math.sqrt(2) / 2, y: -Math.sqrt(2) / 2 },
+  { degree: '330^\\circ', radian: '\\frac{11\\pi}{6}', coord: '(\\frac{\\sqrt{3}}{2}, -\\frac{1}{2})', x: Math.sqrt(3) / 2, y: -1 / 2 }
 ];
 
 
+let score = 0;
+let previousPoint = null;
+let answered = false;
 
-let currentPoint, questionType;
+const canvas = document.getElementById('unitCircle');
+const ctx = canvas.getContext('2d');
 
-function drawUnitCircle() {
+function drawUnitCircle(point) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw the black circle
+  ctx.beginPath();
+  ctx.arc(150, 150, 120, 0, Math.PI * 2);
+  ctx.strokeStyle = 'black';
   ctx.lineWidth = 2;
-
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-  ctx.strokeStyle = 'black';
   ctx.stroke();
 
+  // Draw the black x and y axes
   ctx.beginPath();
-  ctx.moveTo(centerX, 0);
-  ctx.lineTo(centerX, canvas.height);
-  ctx.moveTo(0, centerY);
-  ctx.lineTo(canvas.width, centerY);
+  ctx.moveTo(150, 30);
+  ctx.lineTo(150, 270);  // y-axis
+  ctx.moveTo(30, 150);
+  ctx.lineTo(270, 150);  // x-axis
   ctx.strokeStyle = 'black';
-  ctx.stroke();
-
-  points.forEach(point => {
-    if (!(point.x === 1 || point.x === -1 || point.y === 1 || point.y === -1)) {
-      ctx.setLineDash([5, 5]);
-      const x = centerX + point.x * radius;
-      const y = centerY - point.y * radius;
-      ctx.beginPath();
-      ctx.moveTo(centerX, centerY);
-      ctx.lineTo(x, y);
-      ctx.strokeStyle = 'black';
-      ctx.stroke();
-    }
-  });
-
-  const x = centerX + currentPoint.x * radius;
-  const y = centerY - currentPoint.y * radius;
-  ctx.setLineDash([]);
-  ctx.beginPath();
-  ctx.moveTo(centerX, centerY);
-  ctx.lineTo(x, y);
-  ctx.strokeStyle = 'red';
   ctx.lineWidth = 3;
   ctx.stroke();
 
+  // Draw the black dashed lines for multiples of pi/6 and pi/4
+  for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 6) {
+    drawDashedLine(angle);
+  }
+  for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 4) {
+    drawDashedLine(angle);
+  }
+
+  // Draw the red vector from the center to the point
   ctx.beginPath();
-  ctx.arc(x, y, 8, 0, 2 * Math.PI);
+  ctx.moveTo(150, 150);
+  ctx.lineTo(150 + point.x * 120, 150 - point.y * 120);
+  ctx.strokeStyle = 'red';
+  ctx.stroke();
+
+  // Draw the red point (larger size)
+  ctx.beginPath();
+  ctx.arc(150 + point.x * 120, 150 - point.y * 120, 8, 0, Math.PI * 2);  // Larger radius for red point
   ctx.fillStyle = 'red';
   ctx.fill();
 }
 
+function drawDashedLine(angle) {
+  const x = Math.cos(angle);
+  const y = Math.sin(angle);
+  ctx.beginPath();
+  ctx.setLineDash([5, 5]);
+  ctx.moveTo(150, 150);
+  ctx.lineTo(150 + x * 120, 150 - y * 120);
+  ctx.strokeStyle = 'black';
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
 function setupQuestion() {
-  let newPoint;
+  let currentPoint;
   do {
-    newPoint = points[Math.floor(Math.random() * points.length)];
-  } while (newPoint === previousPoint);
+    currentPoint = points[Math.floor(Math.random() * points.length)];
+  } while (currentPoint === previousPoint);
 
-  currentPoint = newPoint;
-  previousPoint = newPoint;
+  previousPoint = currentPoint;
+  answered = false;
 
-  const questionTypes = ['radian', 'degree', 'coord'];
-  
-  let newQuestionType;
-  do {
-    newQuestionType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
-  } while (newQuestionType === previousQuestionType);
+  document.getElementById('nextQuestionBtn').style.display = 'none';
+  drawUnitCircle(currentPoint);
 
-  questionType = newQuestionType;
-  previousQuestionType = newQuestionType;
+  const questionTypes = ['degree', 'radian', 'coord'];
+  const questionType = questionTypes[Math.floor(Math.random() * 3)];
 
-  document.getElementById('questionText').textContent = `Find the ${questionType} for this point:`;
+  switch (questionType) {
+    case 'degree':
+      document.getElementById('questionText').textContent = 'What is the degree for this point?';
+      generateOptions('degree', currentPoint);
+      break;
+    case 'radian':
+      document.getElementById('questionText').textContent = 'What is the radian for this point?';
+      generateOptions('radian', currentPoint);
+      break;
+    case 'coord':
+      document.getElementById('questionText').textContent = 'What are the coordinates for this point?';
+      generateOptions('coord', currentPoint);
+      break;
+  }
+}
 
+function generateOptions(type, currentPoint) {
   const optionsContainer = document.getElementById('options');
   optionsContainer.innerHTML = '';
 
-  generateOptions(questionType).forEach(option => {
+  const options = [];
+  const incorrectPoints = points.filter(p => p !== currentPoint).slice(0, 8);  // 8 incorrect options
+
+  incorrectPoints.forEach(p => {
+    if (type === 'degree') options.push(p.degree);
+    if (type === 'radian') options.push(p.radian);
+    if (type === 'coord') options.push(p.coord);
+  });
+
+  let correctAnswer;
+  if (type === 'degree') correctAnswer = currentPoint.degree;
+  if (type === 'radian') correctAnswer = currentPoint.radian;
+  if (type === 'coord') correctAnswer = currentPoint.coord;
+
+  options.push(correctAnswer);
+  options.sort(() => Math.random() - 0.5);
+
+  options.forEach(option => {
     const button = document.createElement('button');
-    button.textContent = option;
-    button.onclick = () => checkAnswer(option);
+    button.innerHTML = `\\(${option}\\)`;
+    button.onclick = () => checkAnswer(option, correctAnswer, button);
     optionsContainer.appendChild(button);
   });
 
-  drawUnitCircle();
+  MathJax.typesetPromise();
 }
 
-function generateOptions(type) {
-  const correctAnswer = currentPoint[type];
-  let allOptions = points.map(p => p[type]);
+function checkAnswer(selectedOption, correctAnswer, button) {
+  if (answered) return; // Prevent multiple answers
+  answered = true;
 
-  allOptions = allOptions.sort(() => Math.random() - 0.5).slice(0, 7); // Always give 8 options
-  if (!allOptions.includes(correctAnswer)) allOptions.push(correctAnswer);
-  return allOptions.sort(() => Math.random() - 0.5);
-}
-
-function checkAnswer(selectedOption) {
-  const correctAnswer = currentPoint[questionType];
   const scoreSheet = document.querySelector('#scoreSheet tbody');
   const row = document.createElement('tr');
   const answerCell = document.createElement('td');
   const changeCell = document.createElement('td');
   const scoreCell = document.createElement('td');
 
-  answerCell.textContent = correctAnswer;
-  answerCell.style.width = "80%"; // Wider column for "Correct Answer"
-  answerCell.style.fontSize = "10px"; // Smaller font size
+  answerCell.innerHTML = `\\(${correctAnswer}\\)`;
 
   if (selectedOption === correctAnswer) {
     score += 20;
     changeCell.textContent = '+20';
     changeCell.className = 'green';
+    button.style.backgroundColor = '#4CAF50'; // Correct answer
   } else {
     score = Math.max(0, score - 5);
     changeCell.textContent = '-5';
     changeCell.className = 'red';
+    button.style.backgroundColor = 'red'; // Incorrect answer
   }
 
   scoreCell.textContent = score;
   scoreCell.className = 'score';
-  scoreCell.style
-  scoreCell.style.textAlign = "center";
-
   row.appendChild(answerCell);
   row.appendChild(changeCell);
   row.appendChild(scoreCell);
   scoreSheet.appendChild(row);
 
-  if (scoreSheet.rows.length > 10) {
-    scoreSheet.deleteRow(0); // Keep the header, delete the top data row
-  }
+  // Typeset LaTeX for correct answer
+  MathJax.typesetPromise([answerCell]).then(() => console.log('MathJax typeset for the correct answer.'));
 
-  setTimeout(setupQuestion, 2000);
+  if (scoreSheet.rows.length > 6) scoreSheet.deleteRow(0); // Delete the first row of data if there are more than 6 rows
+  document.getElementById('nextQuestionBtn').style.display = 'inline'; // Show "Next Question" button
 }
+
+document.getElementById('nextQuestionBtn').addEventListener('click', setupQuestion);
 
 setupQuestion();
