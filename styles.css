@@ -11,51 +11,50 @@ body {
   align-items: center;
   height: 100vh;
   background-color: #f0f0f0;
+  overflow: hidden;  /* No scrollbars */
 }
 
 .container {
   display: flex;
-  width: 100%;
+  width: 85%;  /* Shrinking container width */
   justify-content: space-between;
-  padding: 10px;
+  padding: 5px;
 }
 
 .middle-column {
-  width: 60%;
+  width: 60%;  /* Adjusting middle column width */
   text-align: center;
-  position: relative;
-  margin-right: 10px;
 }
 
 .question-section {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;  /* Minimized margin */
 }
 
 .question-section h1 {
-  font-size: 18px;
+  font-size: 14px;  /* Slightly smaller question text */
   margin-right: 10px;
 }
 
 .middle-column canvas {
   margin-top: 5px;
+  max-height: 220px;  /* Reducing canvas height */
 }
 
 .options-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
-  margin-top: 5px;
+  grid-gap: 4px;  /* Minimizing gaps between options */
 }
 
 .options-grid button {
-  padding: 10px;
+  padding: 6px;
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
@@ -64,12 +63,13 @@ body {
 }
 
 .next-btn {
-  padding: 10px;
+  padding: 6px;
   background-color: #2196F3;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 12px;  /* Smaller font for next button */
 }
 
 .next-btn:hover {
@@ -77,23 +77,25 @@ body {
 }
 
 .right-column {
-  width: 25%;
+  width: 25%;  /* Adjusted width for right column */
   padding-left: 5px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 11px;  /* Smaller font for score sheet */
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+  padding: 4px;
+  text-align: left;  /* Left-justified score sheet */
 }
 
 th {
   background-color: #f2f2f2;
+  font-size: 11px;
 }
 
 td.green {
