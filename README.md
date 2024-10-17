@@ -1,4 +1,4 @@
-# https://mo2718281828.github.io/mo.unitcirclepractice.github.io
+# https://mo2718281828.github.io/unitcirclepractice
 
 Use this game to practice describing the most common points on the unit circle.
 
